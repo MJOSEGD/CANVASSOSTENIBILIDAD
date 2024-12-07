@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canvas de Sostenibilidad</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Contenedor principal que se descargará -->
+    <div id="canvas-container">
+      <!-- Encabezado con logo -->
+      <header class="header">
+        <div class="logo-title">
+          <img
+            src="AF_Desarrollo Sostenible Logo Iconos TZ-03 (1) (1).png"
+            alt="Logo ODS"
+            class="logo"
+          />
+          <h1>Canvas de Sostenibilidad</h1>
+        </div>
+        <div class="docente-info">
+          <label for="nombre-docente">Nombre del docente:</label>
+          <input
+            type="text"
+            id="nombre-docente"
+            placeholder="Ingrese su nombre"
+          />
+          <label for="curso">Curso:</label>
+          <input type="text" id="curso" placeholder="Ingrese su curso" />
+        </div>
+      </header>
+
+      <!-- Contenido principal del Canvas -->
+      <div class="container">
+        <div class="box">
+          <label>IDENTIFICACIÓN DEL PROBLEMA</label
+          ><textarea oninput="autoResize(this)"></textarea>
+        </div>
+        <div class="box">
+          <label>META DE COMPRENSIÓN</label
+          ><textarea oninput="autoResize(this)"></textarea>
+        </div>
+        <div class="box">
+          <label>COMPETENCIAS</label
+          ><textarea oninput="autoResize(this)"></textarea>
+        </div>
+        <div class="box">
+          <label>CONTEXTO Y CONEXIÓN LOCAL</label
+          ><textarea oninput="autoResize(this)"></textarea>
+        </div>
+        <div class="box">
+          <label>SABERES BÁSICOS</label
+          ><textarea oninput="autoResize(this)"></textarea>
+        </div>
+        <div class="box">
+          <label>META ODS</label
+          ><textarea oninput="autoResize(this)"></textarea>
+        </div>
+        <div class="box">
+          <label>META DE TRANSFERENCIA</label
+          ><textarea oninput="autoResize(this)"></textarea>
+        </div>
+        <div class="box">
+          <label>HABILIDADES SOCIALES</label
+          ><textarea oninput="autoResize(this)"></textarea>
+        </div>
+        <div class="box">
+          <label>TECNOLOGÍA Y HERRAMIENTAS DIGITALES</label
+          ><textarea oninput="autoResize(this)"></textarea>
+        </div>
+        <div class="box">
+          <label>PRODUCTO</label
+          ><textarea oninput="autoResize(this)"></textarea>
+        </div>
+        <div class="box">
+          <label>PERFIL ALUMNO</label
+          ><textarea oninput="autoResize(this)"></textarea>
+        </div>
+        <div class="box horizontal">
+          <label>ACCIONES-ESTRATEGIAS</label
+          ><textarea oninput="autoResize(this)"></textarea>
+        </div>
+        <div class="box horizontal">
+          <label>CRITERIOS DE EVALUACIÓN | AGENTES DE EVALUACIÓN</label
+          ><textarea oninput="autoResize(this)"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botones para descargar -->
+    <div class="buttons">
+      <button id="downloadPNG">Descargar como PNG</button>
+      <button id="downloadPDF">Descargar como PDF</button>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+      // Ajusta la altura dinámica del textarea
+      function autoResize(textarea) {
+        textarea.style.height = "auto";
+        textarea.style.height = textarea.scrollHeight + "px";
+      }
+
+      // Descargar como PNG
+      document.getElementById("downloadPNG").addEventListener("click", () => {
+        html2canvas(document.querySelector("#canvas-container")).then(
+          (canvas) => {
+            const link = document.createElement("a");
+            link.download = "canvas_sostenibilidad.png";
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+          }
+        );
+      });
+
+      // Descargar como PDF
+      document
+        .getElementById("downloadPDF")
+        .addEventListener("click", async () => {
+          const { jsPDF } = window.jspdf;
+          const canvas = await html2canvas(
+            document.querySelector("#canvas-container")
+          );
+          const imgData = canvas.toDataURL("image/png");
+          const pdf = new jsPDF("p", "mm", "a4");
+
+          const imgWidth = 190;
+          const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+          pdf.addImage(imgData, "PNG", 10, 10, imgWidth, imgHeight);
+          pdf.save("canvas_sostenibilidad.pdf");
+        });
+    </script>
+  </body>
+</html>
